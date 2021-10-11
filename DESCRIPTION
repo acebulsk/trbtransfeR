@@ -1,0 +1,11 @@
+Package: trbtransfeR
+Type: package
+Title: Turbulent Wind Flow Transfers of Heat and Energy from the Land Surface
+Version: 0.1.0
+Authors@R: person("Alex", "Cebulski", email = "alexcebulski@gmail.com",
+                  role = c("aut", "cre"))
+Description: A collection of equations related to modelling turbulent wind flow transfer of energy between the atmoshpere and land surface.
+    The influence of atmospheric stability is taken into account for these equations using bulk transfer equations. 
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
