@@ -6,17 +6,21 @@
 #' @param zHeight measurement height (m)
 #' @param d_0 displacement height (m)
 #' @param z0_m roughness length of momentum (m)
+#' @param phi_m stability correction due to momentum. 0 is for neutral or stable case
 #' @param k 0.4 von karmans constant
 #'
 #' @return friction velocity (m/s)
 #' @export
 #'
 #' @examples
-friction_velocity <- function(uMeas, zHeight, d_0, z0_m, k = 0.4) {
-  (uMeas * k) * log((zHeight-d_0)/z0_m)^-1
+
+friction_velocity <- function(uMeas, zHeight, d_0, z0_m, phi_m, k = 0.4) {
+
+  (uMeas * k) * (log((zHeight-d_0)/z0_m) - phi_m) ^-1
+
 }
 
-#' Calculate Ustar, Z_0m, and, d_0 Given Measured Wind Speed
+#' Calculate Parameters Ustar, Z_0m, and, d_0 Given Measured Wind Speed and stability correction.
 #'
 #' @param uMeas measured wind speed (m/s)
 #' @param zHeight height of wind measurement (m)
@@ -24,7 +28,8 @@ friction_velocity <- function(uMeas, zHeight, d_0, z0_m, k = 0.4) {
 #' @param z0_m roughness length of momentum (m)
 #' @param phi_m stability correction due to momentum. 0 is for neutral or stable case.
 #' @param k 0.4 von karmans constant
-#' @return List of optimization result. Params are accessed by 'returnedobj'$...
+#'
+#' @return List of optimization result including ustar (friction velocity), Z_0m (roughness length), d_0 (displacement height) Params are accessed by 'returnedobj'$...
 #' @export
 #'
 #' @examples df <- data.frame(
@@ -36,7 +41,7 @@ friction_velocity <- function(uMeas, zHeight, d_0, z0_m, k = 0.4) {
 #'
 #'
 #'
-fit_neutral_wind <- function(uMeas, zHeight, z_0m = NA, d_0 = NA, phi_m, k = 0.4){
+optim_wind_params <- function(uMeas, zHeight, z_0m = NA, d_0 = NA, phi_m, k = 0.4){
   loglinfun <- function(params){ # the input variable params must be the same length and dimension as the initial guesses (i.e. start points)
     ustar <- params[[1]]
     z_0m <- dplyr::if_else(is.na(z_0m), params[[2]], z_0m) # estimate d_0 if not given

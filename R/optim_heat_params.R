@@ -50,7 +50,7 @@ sensible_H_flux <- function(ref_temp, surf_temp, p_atm, rho_air, zHeight, u_star
 #' @export
 #'
 #' @examples
-fit_neutral_temp <- function(ref_temp, surf_temp, p_atm, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_h, k = 0.4, C_pl = 1004.67){
+optim_heat_params <- function(ref_temp, surf_temp, p_atm, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_h, k = 0.4, C_pl = 1004.67){
   q <- psychRomet::specific_humidity(psychRomet::tetens(ref_temp), p_atm)
 
   C_p <- C_pl * (1+0.84*q)

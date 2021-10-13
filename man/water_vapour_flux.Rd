@@ -15,6 +15,7 @@ water_vapour_flux(
   u_star,
   z_0m,
   d_0 = NA,
+  phi_v,
   k = 0.4,
   lambda = 2500000
 )
@@ -39,6 +40,8 @@ water_vapour_flux(
 \item{z_0m}{roughness length}
 
 \item{d_0}{displacement height due to veg (m)}
+
+\item{phi_v}{stability correction due to water vapour. 0 is for neutral or stable case.}
 
 \item{k}{0.4 (von Karman’s constant)}
 

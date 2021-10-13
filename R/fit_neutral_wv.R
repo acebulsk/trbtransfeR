@@ -5,6 +5,7 @@
 #' @inheritParams sensible_H_flux
 #' @param ref_rh relative humidity fraction at reference height
 #' @param surf_rh relative humidity fraction at surface
+#' @param phi_v stability correction due to water vapour. 0 is for neutral or stable case.
 #' @param lambda  2.5e-6 J kg-1 (latent head of vapourization)
 #'
 #' @return w / m2
@@ -12,7 +13,7 @@
 #'
 #' @examples
 
-water_vapour_flux <- function(ref_temp, surf_temp, p_atm, ref_rh, surf_rh, rho_air, zHeight, u_star, z_0m, d_0 = NA, k = 0.4, lambda = 2.5e6){
+water_vapour_flux <- function(ref_temp, surf_temp, p_atm, ref_rh, surf_rh, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_v, k = 0.4, lambda = 2.5e6){
   ref_e_a <- psychRomet::actual_vapour_pressure(psychRomet::tetens(ref_temp), ref_rh)
   surf_e_a <- psychRomet::actual_vapour_pressure(psychRomet::tetens(surf_temp), surf_rh)
 
@@ -21,7 +22,7 @@ water_vapour_flux <- function(ref_temp, surf_temp, p_atm, ref_rh, surf_rh, rho_a
 
   z_0v <- z_0m * 0.1
 
-  ((ref_sh - surf_sh) * (k*u_star*rho_air*lambda)) * log((zHeight - d_0)/(z_0v)) ^-1
+  ((ref_sh - surf_sh) * (k*u_star*rho_air*lambda)) * (log((zHeight - d_0)/(z_0v)) - phi_v)^-1
 }
 
 #' Estimate Turbulent Sensible Heat Flux
