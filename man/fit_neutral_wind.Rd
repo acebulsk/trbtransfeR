@@ -4,7 +4,7 @@
 \alias{fit_neutral_wind}
 \title{Calculate Ustar, Z_0m, and, d_0 Given Measured Wind Speed}
 \usage{
-fit_neutral_wind(uMeas, zHeight, d_0 = NA)
+fit_neutral_wind(uMeas, zHeight, z_0m = NA, d_0 = NA, k = 0.4)
 }
 \arguments{
 \item{uMeas}{measured wind speed (m/s)}
@@ -12,32 +12,17 @@ fit_neutral_wind(uMeas, zHeight, d_0 = NA)
 \item{zHeight}{height of wind measurement (m)}
 }
 \value{
-List of optimization result. Params are accessed by 'returnedobj'$par_est.
+List of optimization result. Params are accessed by 'returnedobj'$...
 }
 \description{
 Calculate Ustar, Z_0m, and, d_0 Given Measured Wind Speed
 }
 \examples{
 df <- data.frame(
-U_1 = c(4.6, 6.0, 7.6, 9.0),
+uMeas = c(4.6, 6.0, 7.6, 9.0),
 
-Z_1 = c(1, 3, 10, 30)
+zHeight = c(1, 3, 10, 30)
 )
-
-
-
-# Find parameters
-fitted_wind <- fit_neutral_wind(df$U_1, df$Z_1)
-
-# Put estimated parameters in data frame
-est_pars <- data.frame(
- ustar = fitted_wind$par_est$par[1],
-
- z_0m = fitted_wind$par_est$par[2],
-
- d_0 = fitted_wind$par_est$par[3]
-)
-Use helper function fit_neutral_wind_helpr to confirm worked
 
 
 

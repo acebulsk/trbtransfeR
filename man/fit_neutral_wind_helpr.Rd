@@ -18,5 +18,5 @@ list of estimated wind speeds
 Helper Function to Estimate Wind Speed
 }
 \examples{
- fit_neutral_wind_helpr(c(est_pars$ustar, est_pars$z_0m, est_pars$d_0), meas_wind$height_m)
+ NA
 }
