@@ -25,7 +25,7 @@ phi_unstble_m <- function(z_L){
   x <- (1-(16*z_L))^{1/4}
   phi <- 2*log((1 + x )/2) + log((1 + x^2) / 2) - (2 * atan(x) + pi/2)
 
-  out <- if_else(z_L < 0, phi, 9999)
+  out <- dplyr::if_else(z_L < 0, phi, 9999)
 
   return(out)
 }
