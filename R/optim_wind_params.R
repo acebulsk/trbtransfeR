@@ -14,9 +14,9 @@
 #'
 #' @examples
 
-friction_velocity <- function(uMeas, zHeight, d_0, z0_m, phi_m, k = 0.4) {
+friction_velocity <- function(uMeas, zHeight, d_0, z_0m, phi_m, k = 0.4) {
 
-  (uMeas * k) * (log((zHeight-d_0)/z0_m) - phi_m) ^-1
+  (uMeas * k) * (log((zHeight-d_0)/z_0m) - phi_m) ^-1
 
 }
 
