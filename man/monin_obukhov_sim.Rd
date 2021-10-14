@@ -4,12 +4,24 @@
 \alias{monin_obukhov_sim}
 \title{Monin Obukov Simularity Variable}
 \usage{
-monin_obukhov_sim(u_star, T_c, z, Q_h, d_0, g = 9.81, k = 0.4)
+monin_obukhov_sim(
+  u_star,
+  T_c,
+  rho_air,
+  z,
+  Q_h,
+  d_0,
+  g = 9.81,
+  k = 0.4,
+  C_p = 1004.67
+)
 }
 \arguments{
 \item{u_star}{friction velocity (m/s)}
 
 \item{T_c}{air temperature (celsuis)}
+
+\item{rho_air}{density of moist air}
 
 \item{z}{measurement height (m)}
 
@@ -20,9 +32,11 @@ monin_obukhov_sim(u_star, T_c, z, Q_h, d_0, g = 9.81, k = 0.4)
 \item{g}{acceleration due to gravity (9.81 m s -2 )}
 
 \item{k}{von karman constant (0.4)}
+
+\item{C_p}{1004.67 (specific heat at constant pressure J kg-1 K-1}
 }
 \value{
-dimensionless
+L in metres. stability (x) = z - d_0 / L
 }
 \description{
 Used to determine atmospheric stability.

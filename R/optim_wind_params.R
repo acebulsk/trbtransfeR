@@ -16,8 +16,9 @@
 
 friction_velocity <- function(uMeas, zHeight, d_0, z_0m, phi_m, k = 0.4) {
 
-  (uMeas * k) * (log((zHeight-d_0)/z_0m) - phi_m) ^-1
+  u_star <- uMeas * k * (log((zHeight-d_0)/z_0m) - phi_m) ^-1
 
+  return(u_star)
 }
 
 #' Calculate Parameters Ustar, Z_0m, and, d_0 Given Measured Wind Speed and stability correction.

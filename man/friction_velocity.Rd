@@ -4,7 +4,7 @@
 \alias{friction_velocity}
 \title{Calculate Friction Velocity}
 \usage{
-friction_velocity(uMeas, zHeight, d_0, z0_m, phi_m, k = 0.4)
+friction_velocity(uMeas, zHeight, d_0, z_0m, phi_m, k = 0.4)
 }
 \arguments{
 \item{uMeas}{measured wind speed m s-1}
@@ -13,11 +13,11 @@ friction_velocity(uMeas, zHeight, d_0, z0_m, phi_m, k = 0.4)
 
 \item{d_0}{displacement height (m)}
 
-\item{z0_m}{roughness length of momentum (m)}
-
 \item{phi_m}{stability correction due to momentum. 0 is for neutral or stable case}
 
 \item{k}{0.4 von karmans constant}
+
+\item{z0_m}{roughness length of momentum (m)}
 }
 \value{
 friction velocity (m/s)

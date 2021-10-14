@@ -15,7 +15,7 @@ sensible_H_flux(
   d_0 = NA,
   phi_h,
   k = 0.4,
-  C_pl = 1004.67
+  C_p = 1004.67
 )
 }
 \arguments{

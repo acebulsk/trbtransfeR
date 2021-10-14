@@ -22,7 +22,7 @@ water_vapour_flux <- function(ref_temp, surf_temp, p_atm, ref_rh, surf_rh, rho_a
 
   z_0v <- z_0m * 0.1
 
-  ((ref_sh - surf_sh) * (k*u_star*rho_air*lambda)) * (log((zHeight - d_0)/(z_0v)) - phi_v)^-1
+  -((ref_sh - surf_sh) * (k*u_star*rho_air*lambda)) * (log((zHeight - d_0)/(z_0v)) - phi_v)^-1
 }
 
 #' Estimate Turbulent Sensible Heat Flux

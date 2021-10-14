@@ -26,7 +26,7 @@ monin_obukhov_sim <- function(u_star, T_c, rho_air, z, Q_h, d_0, g = 9.81, k = 0
     T_k <- T_c + 273.15
     L <- dplyr::if_else(Q_h == 0,
                    1e6,
-                   (u_star^3 * T_k * rho_air * C_p) / (k * g * Q_h)
+                   -(u_star^3 * T_k * rho_air * C_p) / (k * g * Q_h)
                    )
     return(L)
 }

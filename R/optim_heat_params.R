@@ -20,10 +20,10 @@
 #'
 #' @examples
 
-sensible_H_flux <- function(ref_temp, surf_temp, p_atm, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_h, k = 0.4, C_pl = 1004.67){
-  q <- psychRomet::specific_humidity(psychRomet::tetens(ref_temp), p_atm)
-
-  C_p <- C_pl * (1+0.84*q)
+sensible_H_flux <- function(ref_temp, surf_temp, p_atm, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_h, k = 0.4, C_p = 1004.67){
+  # q <- psychRomet::specific_humidity(psychRomet::tetens(ref_temp), p_atm)
+  #
+  # C_p <- C_pl * (1+0.84*q)
 
   z_0t <- z_0m * 0.1
 
@@ -35,11 +35,11 @@ sensible_H_flux <- function(ref_temp, surf_temp, p_atm, rho_air, zHeight, u_star
   # ref_0 <- psychRomet::virtual_temp(ref_temp, ref_ah) + 273.15
   # surf_0 <- psychRomet::virtual_temp(surf_temp, surf_ah) + 273.15
 
-  ref_0 <- psychRomet::potential_temp(ref_temp, p_atm) + 273.15
-  surf_0 <- psychRomet::potential_temp(surf_temp, p_atm) + 273.15
+  # ref_0 <- psychRomet::potential_temp(ref_temp, p_atm) + 273.15
+  # surf_0 <- psychRomet::potential_temp(surf_temp, p_atm) + 273.15
 
 
-  ((ref_0 - surf_0) * (k*u_star*rho_air*C_p)) * (log((zHeight - d_0)/(z_0t)) - phi_h)^-1
+  -((ref_temp - surf_temp) * (k*u_star*rho_air*C_p)) * (log((zHeight - d_0)/(z_0t)) - phi_h)^-1
 }
 
 #' Estimate Turbulent Sensible Heat Flux
