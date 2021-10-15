@@ -6,7 +6,6 @@
 #' @param ref_rh relative humidity fraction at reference height
 #' @param surf_rh relative humidity fraction at surface
 #' @param phi_v stability correction due to water vapour. 0 is for neutral or stable case.
-#' @param lambda  2.5e-6 J kg-1 (latent head of vapourization)
 #'
 #' @return w / m2
 #' @export
@@ -14,8 +13,17 @@
 #' @examples
 
 water_vapour_flux <- function(ref_temp, surf_temp, p_atm, ref_rh, surf_rh, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_v, k = 0.4, lambda = 2.5e6){
-  ref_e_a <- psychRomet::actual_vapour_pressure(psychRomet::tetens(ref_temp), ref_rh)
-  surf_e_a <- psychRomet::actual_vapour_pressure(psychRomet::tetens(surf_temp), surf_rh)
+
+  # need mixing ratio for virtual temp calc
+  ref_ah <- psychRomet::mixing_ratio_p(psychRomet::tetens(ref_temp), p_atm)
+  surf_ah <- psychRomet::mixing_ratio_p(psychRomet::tetens(surf_temp), p_atm)
+
+  # # calc virtual temp
+  ref_0 <- psychRomet::virtual_temp(T_c = ref_temp, mixing_ratio = ref_ah)
+  surf_0 <- psychRomet::virtual_temp(T_c = surf_temp, mixing_ratio = surf_ah)
+
+  ref_e_a <- psychRomet::actual_vapour_pressure(psychRomet::tetens(ref_0), ref_rh)
+  surf_e_a <- psychRomet::actual_vapour_pressure(psychRomet::tetens(surf_0), surf_rh)
 
   ref_sh <- psychRomet::specific_humidity(ref_e_a, total_pressure = p_atm, e_o = 0.622) # g/g == kg/kg
   surf_sh <- psychRomet::specific_humidity(surf_e_a, total_pressure = p_atm, e_o = 0.622)
@@ -25,7 +33,7 @@ water_vapour_flux <- function(ref_temp, surf_temp, p_atm, ref_rh, surf_rh, rho_a
   -((ref_sh - surf_sh) * (k*u_star*rho_air*lambda)) * (log((zHeight - d_0)/(z_0v)) - phi_v)^-1
 }
 
-#' Estimate Turbulent Sensible Heat Flux
+#' Least Squares Estimate Turbulent Sensible Heat Flux Parameters
 #'
 #' @param tDiffMeas temp - temp at surface (kelvin)
 #' @param rho_air density of moist air

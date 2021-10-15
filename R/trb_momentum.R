@@ -7,7 +7,7 @@
 #' @param d_0 displacement height (m)
 #' @param z0_m roughness length of momentum (m)
 #' @param phi_m stability correction due to momentum. 0 is for neutral or stable case
-#' @param k 0.4 von karmans constant
+#' @param k von karmans constant
 #'
 #' @return friction velocity (m/s)
 #' @export
@@ -21,7 +21,7 @@ friction_velocity <- function(uMeas, zHeight, d_0, z_0m, phi_m, k = 0.4) {
   return(u_star)
 }
 
-#' Calculate Parameters Ustar, Z_0m, and, d_0 Given Measured Wind Speed and stability correction.
+#' Least Squares Calculate Parameters Ustar, Z_0m, and, d_0 Given Measured Wind Speed and stability correction.
 #'
 #' @param uMeas measured wind speed (m/s)
 #' @param zHeight height of wind measurement (m)

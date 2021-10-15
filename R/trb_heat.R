@@ -12,15 +12,15 @@
 #' @param d_0 displacement height due to veg (m)
 #' @param phi_h stability correction due to sensible heat. 0 is for neutral or stable case.
 #'
-#' @param k 0.4 (von Karman’s constant)
-#' @param C_p 1004 (specific heat at constant pressure J kg-1 K-1
+#' @param k (von Karman’s constant)
+#' @param C_p (specific heat at constant pressure J kg-1 K-1
 #'
 #' @return J m-2 s-1 OR W m-2
 #' @export
 #'
 #' @examples
 
-sensible_H_flux <- function(ref_temp, surf_temp, p_atm, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_h, k = 0.4, C_p = 1004.67){
+sensible_H_flux <- function(ref_temp, surf_temp, p_atm, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_h, k = 0.4, C_p = 1005){
   # q <- psychRomet::specific_humidity(psychRomet::tetens(ref_temp), p_atm)
   #
   # C_p <- C_pl * (1+0.84*q)
@@ -28,21 +28,21 @@ sensible_H_flux <- function(ref_temp, surf_temp, p_atm, rho_air, zHeight, u_star
   z_0t <- z_0m * 0.1
 
   # need mixing ratio for virtual temp calc
-  # ref_ah <- psychRomet::mixing_ratio_p(psychRomet::tetens(ref_temp), p_atm)
-  # surf_ah <- psychRomet::mixing_ratio_p(psychRomet::tetens(surf_temp), p_atm)
+  ref_ah <- psychRomet::mixing_ratio_p(psychRomet::tetens(ref_temp), p_atm)
+  surf_ah <- psychRomet::mixing_ratio_p(psychRomet::tetens(surf_temp), p_atm)
 
   # # calc virtual temp
-  # ref_0 <- psychRomet::virtual_temp(ref_temp, ref_ah) + 273.15
-  # surf_0 <- psychRomet::virtual_temp(surf_temp, surf_ah) + 273.15
+  ref_0 <- psychRomet::virtual_temp(ref_temp, ref_ah) + 273.15
+  surf_0 <- psychRomet::virtual_temp(surf_temp, surf_ah) + 273.15
 
   # ref_0 <- psychRomet::potential_temp(ref_temp, p_atm) + 273.15
   # surf_0 <- psychRomet::potential_temp(surf_temp, p_atm) + 273.15
 
 
-  -((ref_temp - surf_temp) * (k*u_star*rho_air*C_p)) * (log((zHeight - d_0)/(z_0t)) - phi_h)^-1
+  -((ref_0 - surf_0) * (k*u_star*rho_air*C_p)) * (log((zHeight - d_0)/(z_0t)) - phi_h)^-1
 }
 
-#' Estimate Turbulent Sensible Heat Flux
+#' Least Squares Estimate Turbulent Sensible Heat Flux Parameters
 #'
 #' @inheritParams sensible_H_flux
 #'
