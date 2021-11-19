@@ -6,13 +6,19 @@
 #' @param ref_rh relative humidity fraction at reference height
 #' @param surf_rh relative humidity fraction at surface
 #' @param phi_v stability correction due to water vapour. 0 is for neutral or stable case.
+#' @param vaporization set to 1 if surface temperature above 0 and is water, or set to 0 if surface is ice i.e. below 0.
 #'
-#' @return w / m2
+#' @return w / m2 (as positive flux to the atmosphere i.e. positive if the atmosphere is being warmed, or negative is atmoshpere is cooling)
 #' @export
 #'
 #' @examples
 
-water_vapour_flux <- function(ref_temp, surf_temp, p_atm, ref_rh, surf_rh, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_v, k = 0.4, lambda = 2.5e6){
+water_vapour_flux <- function(ref_temp, surf_temp, p_atm, ref_rh, surf_rh, rho_air, zHeight, u_star, z_0m, d_0 = NA, phi_v, k = 0.4, vaporization = 1){
+
+  lambda <- ifelse(vaporization == 1,
+             2.5e6, # vapourization case
+             2.8e6 # sublimation case
+             )
 
   # need mixing ratio for virtual temp calc
   ref_ah <- psychRomet::mixing_ratio_p(psychRomet::tetens(ref_temp), p_atm)
