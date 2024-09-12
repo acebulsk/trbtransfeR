@@ -17,7 +17,7 @@ water_vapour_flux(
   d_0 = NA,
   phi_v,
   k = 0.4,
-  lambda = 2500000
+  vaporization = 1
 )
 }
 \arguments{
@@ -44,9 +44,11 @@ water_vapour_flux(
 \item{phi_v}{stability correction due to water vapour. 0 is for neutral or stable case.}
 
 \item{k}{(von Karman’s constant)}
+
+\item{vaporization}{set to 1 if surface temperature above 0 and is water, or set to 0 if surface is ice i.e. below 0.}
 }
 \value{
-w / m2
+w / m2 (as positive flux to the atmosphere i.e. positive if the atmosphere is being warmed, or negative is atmoshpere is cooling)
 }
 \description{
 Use this function if have all params listed below. If not use the optimiser function fit_neutral_wv. Taken from This formula is taken from the head and mass exchange lecture slide 19.

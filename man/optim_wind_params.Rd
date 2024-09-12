@@ -2,37 +2,56 @@
 % Please edit documentation in R/trb_momentum.R
 \name{optim_wind_params}
 \alias{optim_wind_params}
-\title{Least Squares Calculate Parameters Ustar, Z_0m, and, d_0 Given Measured Wind Speed and stability correction.}
+\title{Calculate Parameters Ustar, Z_0m, and, d_0 using the base R optim function}
 \usage{
-optim_wind_params(uMeas, zHeight, z_0m = NA, d_0 = NA, phi_m, k = 0.4)
+optim_wind_params(uMeas, zHeight, u_star = NA, z_0m = NA, d_0 = NA, k = 0.4)
 }
 \arguments{
 \item{uMeas}{measured wind speed (m/s)}
 
 \item{zHeight}{height of wind measurement (m)}
 
-\item{d_0}{displacement height (m)}
+\item{u_star}{numeric friction velocity value or NA if need to optimize}
 
-\item{phi_m}{stability correction due to momentum. 0 is for neutral or stable case.}
+\item{z_0m}{numeric roughness length value or NA if need to optimize}
+
+\item{d_0}{numeric displacement height (m) or NA if need to optimize}
 
 \item{k}{0.4 von karmans constant}
-
-\item{z0_m}{roughness length of momentum (m)}
 }
 \value{
 List of optimization result including ustar (friction velocity), Z_0m (roughness length), d_0 (displacement height) Params are accessed by 'returnedobj'$...
 }
 \description{
-Least Squares Calculate Parameters Ustar, Z_0m, and, d_0 Given Measured Wind Speed and stability correction.
+Uses the base R optimize function and least squares to calculate friction velocity (Ustar), roughness length (Z_0m), and displacement height (d_0) given Measured Wind Speed. This function is not properly vectorized and was originally designed to return optimal parameters given a vector of wind speed and sensor height values and return one set of params that best represent the entire wind profile. In order to return parameters for each individual row you either need to iterate rows or use purrr::pmap.
+}
+\details{
+\deqn{\overline{u} = \frac{u_*}{K} ln(\frac{z - d_0}{z_0})}
 }
 \examples{
+
 df <- data.frame(
 uMeas = c(4.6, 6.0, 7.6, 9.0),
 
 zHeight = c(1, 3, 10, 30)
 )
 
+trbtransfeR::optim_wind_params(
+uMeas = df$uMeas,
+zHeight = df$zHeight,
+u_star = NA,
+z_0m = NA,
+d_0 = NA
+)
 
+# pars <- low_wind |>
+# select(
+#   uMeas = low_ec_rslt_wnd_spd,
+#   zHeight = low_ec_height,
+#   u_star = low_ec_u_star_fltr) |>
+#   slice(1:10)
+
+# mod_pars <- pmap_df(pars, trbtransfeR::optim_wind_params)
 
 
 }
